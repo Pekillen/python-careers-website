@@ -39,12 +39,16 @@ def add_application_to_db(job_id, data):
     query = text(
       "INSERT INTO applications (job_id, full_name, email, linkedin_url, education, work_experience, resume_url) VALUES (:job_id, :full_name, :email, :linkedin_url, :education, :work_experience, :resume_url)"
     )
-
-    conn.execute(query,
-                 job_id=job_id,
-                 full_name=data['full_name'],
-                 email=data['email'],
-                 linkedin_url=data['linkedin_url'],
-                 education=data['education'],
-                 work_experience=data['work_experience'],
-                 resume_url=data['resume_url'])
+    values = {
+      'job_id': job_id,
+      'full_name': data['full_name'],
+      'email': data['email'],
+      'linked_url': data['linkedin_url'],
+      'education': data['education'],
+      'work_experience': data['work_experience'],
+      'resume_url': data['resume_url']
+    }
+    try:
+      conn.execute(query, values)
+    except:
+      print("Whoops! Something went wrong! Try again!")
